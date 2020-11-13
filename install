@@ -1,6 +1,31 @@
 #!/bin/sh
 
-for script in ./*
+current_dir=$(pwd)
+
+if [ $0 != './install' ]; then
+  echo Please change directory into the directory containing this\
+    './install' before executing this script.
+  exit 0
+fi
+
+link_tag='-s'
+
+for i in $@
 do
-  pwd
+  if [ $i = -f ] || [ $i = --force ] || [ $i = -o ] || [ $i = --overwrite ]; then
+    echo Force/overwriting existing scripts
+    link_tag='-sf'
+  else
+    echo Unknown argument $i
+    exit 0
+  fi
+done
+
+cd ./bin
+
+for script in *
+do
+  echo Created symbolic link from $current_dir/$script to $HOME/.local/bin/$script
+  touch $HOME/.local/bin/$script
+  ln $link_tag $current_dir/bin/$script $HOME/.local/bin/
 done

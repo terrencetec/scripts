@@ -1,5 +1,3 @@
-# scripts
-
 Scripts
 =======
 
@@ -14,6 +12,13 @@ Installation
 
 Last line will create symbolic link all scripts from scripts/bin to your
 $HOME/.local/bin/
+
+
+Create new scripts
+------------------
+
+Put all your scripts into scripts/bin and make them executable.
+
 
 Available scripts
 -----------------
