@@ -11,7 +11,16 @@ Installation
    ./install
 
 Last line will create symbolic link all scripts from scripts/bin to your
-$HOME/.local/bin/
+``$HOME/.local/bin/``
+
+If you wish to overwrite existing scripts in ``$HOME/.local/bin/``, then
+use
+
+.. code:: bashe
+
+   ./install -f
+
+instead.
 
 
 Create new scripts
