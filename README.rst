@@ -16,7 +16,7 @@ Last line will create symbolic link all scripts from scripts/bin to your
 If you wish to overwrite existing scripts in ``$HOME/.local/bin/``, then
 use
 
-.. code:: bashe
+.. code:: bash
 
    ./install -f
 
