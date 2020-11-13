@@ -1,6 +1,9 @@
 Scripts
 =======
 
+.. contents::
+   :depth: 1
+
 Installation
 ------------
 
@@ -10,8 +13,8 @@ Installation
    cd scripts
    ./install
 
-Last line will create symbolic link all scripts from scripts/bin to your
-``$HOME/.local/bin/``
+Last line will create symbolic link for all scripts from ``scripts/bin`` to
+your ``$HOME/.local/bin/``.
 
 If you wish to overwrite existing scripts in ``$HOME/.local/bin/``, then
 use
