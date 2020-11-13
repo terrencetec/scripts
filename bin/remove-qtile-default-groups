@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for group in a s d f u i o p
+do
+  qtile-cmd -o cmd -f delgroup -a $group
+  echo "Deleting group" $group
+done
