@@ -1,0 +1,12 @@
+#!/bin/sh
+
+while [ ! -z $1 ]
+do
+  if [ $1 == -a ];then
+    echo $2
+  elif [ $1 == -b ];then
+    echo $2
+  fi
+  shift
+
+done

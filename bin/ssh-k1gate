@@ -1,0 +1,44 @@
+#!/bin/sh
+
+function print_help {
+  printf "usage ssh-k1gate [-h] [--args ARGS]"
+  printf "\n\n"
+  printf "SSH to k1gate with port forwarding."
+  printf "\n"
+  printf "Connect to ICRR VPN server: icrvpn2.icrr.u-tokyo.ac.jp before using this."
+  printf "\n\n"
+  printf "optional arguments:"
+  printf "\n"
+  printf "\t --k1ctr NUM \t The workstation ID x as in k1ctrx. Defaults to 1."
+  printf "\n"
+  printf "\t --local-port, -lp LOCAL_PORT \t Local port forwarding. Defaults to 3390."
+  printf "\n"
+  printf "\t --term, -t TERM \t the TERM environment variable. Defaults to xterm-256color"
+  printf "\n"
+  printf "\t --help, -h \t Print this help message."
+  printf "\n"
+  exit 1
+}
+
+workstation_num=1
+local_port=3390
+term=xterm-256color
+
+while [ ! -z $1 ]
+do
+  if [ $1 == --k1ctr ];then
+    shift
+    workstation_num=$1
+  elif [ $1 == --local-port ] || [ $1 == -lp ];then
+    shift
+    local_port=$1
+  elif [ $1 == --term ] || [ $1 == -t ];then
+    shift
+    term=$1
+  elif [ $1 == -h ] || [ $1 == --help ];then
+    print_help
+  fi
+  shift
+done
+
+TERM=$term ssh -L:$local_port:k1ctr$workstation_num:3389 controls@172.16.33.11
