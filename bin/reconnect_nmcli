@@ -1,0 +1,12 @@
+#!/bin/sh
+
+while true
+do
+  ping -c 1 8.8.8.8
+  rc=$?
+  if [ ! $rc -eq 0 ] ; then
+    echo "Connection lost, reconnecting."
+    nmcli device wifi connect Orbiqqq password cityone1
+  fi
+  sleep 1m
+done

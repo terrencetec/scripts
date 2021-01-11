@@ -26,6 +26,6 @@ cd ./bin
 for script in *
 do
   echo Created symbolic link from $current_dir/$script to $HOME/.local/bin/$script
-  touch $HOME/.local/bin/$script
+#  touch $HOME/.local/bin/$script
   ln $link_tag $current_dir/bin/$script $HOME/.local/bin/
 done
