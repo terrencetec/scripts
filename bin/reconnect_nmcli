@@ -1,12 +1,67 @@
 #!/bin/sh
 
+function print_help {
+  printf "usage reconnect_nmcli [-h] [--args ARGS]"
+  printf "\n\n"
+  printf "Ping an address, if not success then runs nmcli device wifi connect [ssid] password [password]"
+  printf "\n\n"
+  printf "optional arguments:"
+  printf "\n"
+  printf "\t --ssid, -s \t\t The SSID of the wifi"
+  printf "\n"
+  printf "\t --password, -p \t The password."
+  printf "\n"
+  printf "\t --interval, -i \t The ping inteval. See the sleep command. Defaults 1m."
+  printf "\n"
+  printf "\t --addr, -a \t\t The address to be pinged. Defaults 8.8.8.8 ."
+  printf "\n"
+  printf "\t --help, -h \t\t Print this help message."
+  printf "\n"
+  exit 1
+}
+
+while [ ! -z $1 ]
+do
+  if [ $1 == --ssid ] || [ $1 == -s ];then
+    shift
+    ssid=$1
+  elif [ $1 == --password ] || [ $1 == -p ];then
+    shift
+    password=$1
+  elif [ $1 == --interval ] || [ $1 == -i ];then
+    shift
+    interval=$1
+  elif [ $1 == --addr ] || [ $1 == -a ]; then
+    shift
+    addr=$1
+  elif [ $1 == -h ] || [ $1 == --help ];then
+    print_help
+  fi
+  shift
+done
+
+if [ z ${ssid+x} ];then
+  echo "SSID not specified. See help page for information."
+  exit
+fi
+if [ z ${password+x} ];then
+  echo "Password for $ssid not specified. See help page for information"
+  exit
+fi
+if [ z ${interval+x} ];then
+  interval=1m
+fi
+if [ z ${addr+x} ];then
+  addr=8.8.8.8
+fi
+
 while true
 do
-  ping -c 1 8.8.8.8
+  ping -c 1 $addr
   rc=$?
   if [ ! $rc -eq 0 ] ; then
     echo "Connection lost, reconnecting."
-    nmcli device wifi connect Orbiqqq password cityone1
+    nmcli device wifi connect $ssid password $password
   fi
-  sleep 1m
+  sleep $interval
 done
