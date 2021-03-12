@@ -40,18 +40,18 @@ do
   shift
 done
 
-if [ z ${ssid+x} ];then
+if [ -z ${ssid+x} ];then
   echo "SSID not specified. See help page for information."
   exit
 fi
-if [ z ${password+x} ];then
+if [ -z ${password+x} ];then
   echo "Password for $ssid not specified. See help page for information"
   exit
 fi
-if [ z ${interval+x} ];then
+if [ -z ${interval+x} ];then
   interval=1m
 fi
-if [ z ${addr+x} ];then
+if [ -z ${addr+x} ];then
   addr=8.8.8.8
 fi
 
