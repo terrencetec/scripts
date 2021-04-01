@@ -15,6 +15,8 @@ function print_help {
   printf "\n"
   printf "\t --addr, -a \t\t The address to be pinged. Defaults 8.8.8.8 ."
   printf "\n"
+  printf "\t --retries, -r \t\t Number of retries before reconnecting. Defaults 10."
+  printf "\n"
   printf "\t --help, -h \t\t Print this help message."
   printf "\n"
   exit 1
@@ -34,6 +36,9 @@ do
   elif [ $1 == --addr ] || [ $1 == -a ]; then
     shift
     addr=$1
+  elif [ $1 == --retries ] || [ $1 == -r ]; then
+    shift
+    retries=$1
   elif [ $1 == -h ] || [ $1 == --help ];then
     print_help
   fi
@@ -54,14 +59,29 @@ fi
 if [ -z ${addr+x} ];then
   addr=8.8.8.8
 fi
+if [ -z ${retries+x} ];then
+  retries=10
+fi
+
+counter=0
 
 while true
 do
   ping -c 1 $addr
   rc=$?
   if [ ! $rc -eq 0 ] ; then
-    echo "Connection lost, reconnecting."
-    nmcli device wifi connect $ssid password $password
+    let counter++
+    echo "Connection lost, Re-pinging. Retries $counter/$retries"
+    if [ $counter -ge $retries ];then
+      echo "Retries timeout, running reconnection command."
+      nmcli device wifi connect $ssid password $password
+    fi
+  else
+    counter=0
   fi
-  sleep $interval
+  if [ $counter -ge 1 ] ; then
+    sleep 1s
+  else
+    sleep $interval
+  fi
 done
